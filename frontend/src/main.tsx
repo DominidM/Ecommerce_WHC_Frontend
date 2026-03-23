@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, } from 'react-router-dom';
 import App from './App'; 
 import './styles/index.css';
-import { CartProvider } from './components/ui/CartContext'; // Importa el proveedor
+import { CartProvider } from './components/ui/CartContext';
 
 const rootElement = document.getElementById('root');
 

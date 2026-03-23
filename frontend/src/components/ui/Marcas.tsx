@@ -18,7 +18,7 @@ const Marcas: React.FC = () => {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const [scrollPosition, setScrollPosition] = useState(0);
-    const [, setIntervalId] = useState<number | null>(null);
+    const [, setIntervalId] = useState<ReturnType<typeof setInterval> | null>(null); // ✅ movido aquí arriba
 
     const marcaWidth = 150;
     const espacioEntreMarcas = 20;
@@ -33,20 +33,16 @@ const Marcas: React.FC = () => {
                     const newPosition = prevPosition + totalMarcaWidth;
 
                     if (newPosition > maxScroll) {
-                        // Si nos pasamos del final, volvemos al inicio, pero con una transición suave
-                        setScrollPosition(0);
-                        return 0; // Reseteamos la posición para el siguiente intervalo
+                        return 0;
                     }
                     return newPosition;
                 });
-            }, 2000); // Velocidad de desplazamiento
+            }, 2000);
 
-            setIntervalId(newIntervalId);
+            setIntervalId(newIntervalId); // ✅ guardamos el id correctamente
 
             return () => {
-                if (newIntervalId) {
-                    clearInterval(newIntervalId);
-                }
+                clearInterval(newIntervalId);
                 setIntervalId(null);
             };
         }
@@ -58,9 +54,8 @@ const Marcas: React.FC = () => {
         }
     }, [scrollPosition]);
 
-
     return (
-        <div className="w-full overflow-hidden py-8 bg-white"> {/* Añadido bg-white */}
+        <div className="w-full overflow-hidden py-8 bg-white">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <h2 className="text-2xl font-semibold text-gray-800 whitespace-nowrap text-center sm:text-left">
                     Trabajamos con las mejores marcas
@@ -81,12 +76,11 @@ const Marcas: React.FC = () => {
                         />
                     </div>
                 ))}
-                {/* Mostrar las primeras marcas al final para la repetición infinita */}
                 {marcas.map((marca, index) => (
                     <div
-                        key={`clone-${index}`} // Usar una key diferente para los clones
+                        key={`clone-${index}`}
                         className="flex-shrink-0 w-[150px] h-[100px] flex items-center justify-center"
-                        style={{ marginRight: `${espacioEntreMarcas}px` }} // Mantener el espaciado
+                        style={{ marginRight: `${espacioEntreMarcas}px` }}
                     >
                         <img
                             src={marca.logoSrc}
