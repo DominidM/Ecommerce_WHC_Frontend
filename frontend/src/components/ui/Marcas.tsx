@@ -18,7 +18,7 @@ const Marcas: React.FC = () => {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const [scrollPosition, setScrollPosition] = useState(0);
-    const [, setIntervalId] = useState<ReturnType<typeof setInterval> | null>(null); // ✅ movido aquí arriba
+    const [, setIntervalId] = useState<number | null>(null);
 
     const marcaWidth = 150;
     const espacioEntreMarcas = 20;
@@ -27,7 +27,7 @@ const Marcas: React.FC = () => {
     useEffect(() => {
         const container = containerRef.current;
         if (container) {
-            const newIntervalId = setInterval(() => {
+            const newIntervalId = window.setInterval(() => {
                 setScrollPosition(prevPosition => {
                     const maxScroll = container.scrollWidth - container.clientWidth;
                     const newPosition = prevPosition + totalMarcaWidth;
